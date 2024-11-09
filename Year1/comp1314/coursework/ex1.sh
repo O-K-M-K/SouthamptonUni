@@ -20,7 +20,7 @@ fi
 
 if [[ "$1" == "students.xml" ]]; then
 	echo "Writing to students.csv..."
-	grep -v xml "$1" | tr -d '\r\n' | sed 's/,//g' | sed -E 's/<\/?[a-z]*[0-2]*_?[a-z]*>/\n/g' | awk '{$1=$1; print}' | sed -E 's/>/&\n/g' | sed -E 's/<[a-z]*[0-9]*>//g' | tr -s '\n' | sed 's/$/,/g' | sed -E 's/<.*[^3]\/>/NULL/g' | awk '{$1=$1; print}' | sed -E 's/<.*\/>,/NULL\n/g' | sed -E 's/<.*>,/\n/g' | awk 'NF {printf "%s", $0} !NF {print ""}' | sed '1s/^.\(.*\)/\1/' > students.csv
+	grep -v xml "$1" | sed 's|<[^>]*\/>|<1>NULL<\/1>|g' | awk '{$1=$1;print}'| sed -e 's|\(^[^< ]\)| \1|g' | tr -d '\r\n' | sed -e 's|\([^>]*,[^<]*\)|"\1"|g' | sed 's|<\/student>|\n|g' | sed 's|<[^\/]*>||g' | sed 's|<\/[^>]*>|,|g' | sed 's|,$||g' > students.csv
 fi
 
 echo "Done"
