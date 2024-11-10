@@ -1,23 +1,26 @@
-# while (num := input("Number: ")) != "10":
-#     print("Enter a valid number")
+#!/usr/bin/env python
+
+"""Provides functions to create a runner and manipulate its direction and position"""
 
 #CONSTANTS
 DIRECTIONS = ('N','E','S','W')
-MOVEMENT = {'N': [0,1], 'E':[1,0], 'S':[0,-1], 'W':[-1,0]} #Lists here are treated as movement vectors for each cardinal direction
+
+#Lists here are treated as movement vectors for each cardinal direction
+MOVEMENT = {'N': [0,1], 'E':[1,0], 'S':[0,-1], 'W':[-1,0]} 
 
 def create_runner(x: int = 0, y: int = 0, orientation: str = 'N') -> dict:
     return {'x':x, 'y':y, 'orientation':orientation}
 
-def get_x(runner: dict) -> int:
+def get_x(runner: dict[int, int, str]) -> int:
     return runner['x']
 
-def get_y(runner: dict) -> int:
+def get_y(runner: dict[int, int, str]) -> int:
     return runner['y']
 
-def get_orientation(runner: dict) -> str:
+def get_orientation(runner: dict[int, int, str]) -> str:
     return runner['orientation']
 
-def turn(runner: dict, direction: str) -> dict:
+def turn(runner: dict[int, int, str], direction: str) -> dict[int, int, str]:
     """
     Changes orientation of runner based on direction given
     
@@ -34,7 +37,7 @@ def turn(runner: dict, direction: str) -> dict:
         runner['orientation'] = DIRECTIONS[(DIRECTIONS.index(runner['orientation']) + 1)%4]
     return runner
 
-def forward(runner: dict) -> dict:
+def forward(runner: dict[int, int, str]) -> dict[int, int, str]:
     """
     Moves runner one space forward in a direction dependant on its orientation
     """
