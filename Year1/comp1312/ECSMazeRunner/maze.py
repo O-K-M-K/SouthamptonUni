@@ -1,14 +1,30 @@
 #!/usr/bin/env python
-"""Provides functions for generating and manipulating a maze stored as an Adjacency List"""
+"""
+Provides functions for generating and manipulating a maze stored as an Adjacency List
+All coordinates count from 0 and are in the (x,y) format
+"""
 
-#IMPORTS
-from typing import Tuple
+# IMPORTS
+from typing import Tuple, Optional
 
-ARROWS = {'N':' ^ ','E':' > ','S':' v ', 'W':' < '}
+
+# CONSTANTS
+ARROWS = {'N': ' ^ ', 'E': ' > ', 'S': ' v ', 'W': ' < '}
+
 
 def create_maze(width: int = 5, height: int = 5) -> dict:
-    """Creates a Adjacency List with a connection between two nodes representing a wall in the maze"""
-    maze = {'width':width, 'height':height}
+    """
+    Creates a width by height maze represented as an adjacency list.
+    
+    A connection between two nodes represents a wall in the maze.
+
+    The width and height are stored as keys with their respective names.
+
+    Each 'node' represents a cell in the maze and is represented in coordinate form without brackets or commas.
+    
+    eg: (1,2) is "12"
+    """
+    maze = {'width': width, 'height': height}
     for i in range(height):
         for j in range(width):
             maze[f'{j}{i}'] = []
@@ -20,46 +36,71 @@ def add_horizontal_wall(maze: dict, x_coordinate: int, horizontal_line: int) -> 
     Parameters:
         - maze is the maze as returned by the create_maze function
         - x_coordinate is the coordinate of the column to place the wall
-        - horizontal_line is the row number where the wall will go with the base of the maze being 0 
+        - horizontal_line is the row number where the wall will go with the base of the maze being 0 #
+
+    Returns:
+        - maze
     """
     maze[f'{x_coordinate}{horizontal_line}'].append(f'{x_coordinate}{horizontal_line-1}')
-    maze[f'{x_coordinate}{horizontal_line-1}'].append(f'{x_coordinate}{horizontal_line}')
+    maze[f'{x_coordinate}{horizontal_line - 1}'].append(f'{x_coordinate}{horizontal_line}')
+
     return maze
 
+
 def add_vertical_wall(maze, y_coordinate, vertical_line) -> dict:
-    maze[f'{vertical_line-1}{y_coordinate}'].append(f'{vertical_line}{y_coordinate}')
+    """
+    Parameters:
+        - maze is the maze as returned by the create_maze function
+        - y_coordinate is the coordinate of the row to place the wall
+        - horizontal_line is the column number where the wall will go with the left edge of the maze being 0
+
+    Returns:
+        - maze
+    """
+    maze[f'{vertical_line - 1}{y_coordinate}'].append(f'{vertical_line}{y_coordinate}')
     maze[f'{vertical_line}{y_coordinate}'].append(f'{vertical_line-1}{y_coordinate}')
+
     return maze
+
 
 def get_dimensions(maze: dict) -> Tuple[int, int]:
     """
     returns: [width, height]
     """
-    return [maze['width'],maze['height']]
+    return [maze['width'], maze['height']]
+
 
 def get_walls(maze: dict, x_coordinate: int, y_coordinate: int) -> Tuple[bool, bool, bool, bool]:
     """
-    
-    Returns
-        - N,E,S,W
+    Gets the walls surrounding a given coordinate
+
+    returns:
+        - Tuple in order (N,E,S,W)
     """
     n = False
     e = False
     s = False
     w = False
     walls = maze[f'{x_coordinate}{y_coordinate}']
-    #expression after OR is to check if it is looking at the boundaries of the maze
-    if f'{x_coordinate}{y_coordinate+1}' in walls  or (y_coordinate+1>=get_dimensions(maze)[1]):
-        n = True
-    if f'{x_coordinate}{y_coordinate-1}' in walls or (y_coordinate-1<0):
-        s = True
-    if f'{x_coordinate+1}{y_coordinate}' in walls or (x_coordinate+1>=get_dimensions(maze)[0]):
-        e = True
-    if f'{x_coordinate-1}{y_coordinate}' in walls or (x_coordinate-1<0):
-        w = True
-    return (n,e,s,w)
 
-def print_maze(maze: dict, runner: dict = None, goal: Tuple[int, int] = None):
+    # expression after each OR is to check if it is looking at the boundaries of the maze
+    if f'{x_coordinate}{y_coordinate+1}' in walls or (y_coordinate+1 >= get_dimensions(maze)[1]):
+        n = True
+    if f'{x_coordinate}{y_coordinate-1}' in walls or (y_coordinate-1 < 0):
+        s = True
+    if f'{x_coordinate+1}{y_coordinate}' in walls or (x_coordinate+1 >= get_dimensions(maze)[0]):
+        e = True
+    if f'{x_coordinate-1}{y_coordinate}' in walls or (x_coordinate-1 < 0):
+        w = True
+    return (n, e, s, w)
+
+
+def print_maze(maze: dict, runner: dict = None, goal: Optional[Tuple[int, int]] = None):
+    """
+    Prints maze, runner (^) position and orientation and the goal (X)
+
+    Goal is defaulted as the top right corner of the maze if none is given
+    """
     width, height = get_dimensions(maze)
     if goal is None:
         goal = [width-1, height-1]
@@ -71,7 +112,7 @@ def print_maze(maze: dict, runner: dict = None, goal: Tuple[int, int] = None):
                 top_row += "---"
             else:
                 top_row += "   "
-        top_row+="+"
+        top_row += "+"
         print(top_row)
 
         side_row = ""
@@ -86,13 +127,12 @@ def print_maze(maze: dict, runner: dict = None, goal: Tuple[int, int] = None):
                 elif goal[0] == j and goal[1]+1 == i:
                     side_row += " X "
                 else:
-                    side_row+="   "
+                    side_row += "   "
             else:
-                side_row+="   "
+                side_row += "   "
         print(side_row + "|")
     bottom_row = ""
     for j in range(width):
         bottom_row += "+---"
-    bottom_row+="+"
+    bottom_row += "+"
     print(bottom_row)
-
