@@ -5,15 +5,18 @@
 
 from typing import Tuple, Optional
 from maze import *
+from heapq import heappop, heappush
+from collections import deque
 
 # CONSTANTS
 DIRECTIONS = ('N', 'E', 'S', 'W')
 
 # Lists here are treated as movement vectors for each cardinal direction
 MOVEMENT = {'N': [0, 1], 'E': [1, 0], 'S': [0, -1], 'W': [-1, 0]}
+MOVEMENT_DIRECTION = {'[0, 1]': 'N', '[1, 0]': 'E', '[0, -1]': 'S', '[-1, 0]': 'W'}
 
 
-def create_runner(x: int = 0, y: int = 0, orientation: str = 'N') -> dict[int, int, str]:
+def create_runner(x: int = 0, y: int = 0, orientation: str = 'N') -> dict:
     """
     parameters:
         - x is the runners starting x coordinate
@@ -25,25 +28,35 @@ def create_runner(x: int = 0, y: int = 0, orientation: str = 'N') -> dict[int, i
     return {'x': x, 'y': y, 'orientation': orientation}
 
 
-def get_x(runner: dict[int, int, str]) -> int:
+def get_x(runner: dict) -> int:
     return runner['x']
 
 
-def get_y(runner: dict[int, int, str]) -> int:
+def get_y(runner: dict) -> int:
     return runner['y']
 
 
-def get_orientation(runner: dict[int, int, str]) -> str:
+def get_orientation(runner: dict) -> str:
     return runner['orientation']
 
+def get_position(runner: dict) -> str:
+    """Returns runners position in format: 'x y' """
+    return f"{runner['x']} {runner['y']}"
 
-def turn(runner: dict[int, int, str], direction: str) -> dict[int, int, str]:
+
+def turn(runner: dict, direction: str) -> dict:
     """
     Changes orientation of runner based on direction given
 
     parameters:
-        - runner (dict) dict created by create_runner function
-        - direction (str) Left or Right
+        - runner dict created by create_runner function
+        - direction 'Left' or 'Right'
+    
+    returns:
+        - updated runner
+
+    raises:
+        - ValueError if direction is not valid
     """
 
     # Treating DIRECTIONS as a circular queue by using % to wrap around
@@ -51,15 +64,17 @@ def turn(runner: dict[int, int, str], direction: str) -> dict[int, int, str]:
     if direction == "Left":
         runner['orientation'] = DIRECTIONS[(
             DIRECTIONS.index(runner['orientation']) - 1) % 4]
-    else:
+    elif direction == "Right":
         runner['orientation'] = DIRECTIONS[(
             DIRECTIONS.index(runner['orientation']) + 1) % 4]
+    else:
+        raise ValueError("direction must be either 'Left' or 'Right'")
     return runner
 
 
-def forward(runner: dict[int, int, str]) -> dict[int, int, str]:
+def forward(runner: dict) -> dict:
     """
-    Moves runner one space forward in a direction dependant on its orientation
+    Returns runner moved one space forward in a direction dependant on its orientation
     """
 
     x, y = MOVEMENT[runner['orientation']]
@@ -73,7 +88,7 @@ def sense_walls(runner: dict, maze: dict) -> Tuple[bool, bool, bool]:
     """
     Detects if there are walls right, forward or left of the runner in its current position and orientation.
 
-    Returns in order [Left, Forward, Right]
+    Returns walls in order [Left, Forward, Right]
     """
 
     walls = get_walls(maze, runner['x'], runner['y'])
@@ -95,7 +110,7 @@ def go_straight(runner, maze) -> dict:
         return forward(runner)
 
 
-def move(runner, maze) -> Tuple[dict[int, int, str], str]:
+def move(runner, maze) -> Tuple[dict, str]:
     """
     Determines next move using 'left-hug' algorithm
 
@@ -116,9 +131,10 @@ def move(runner, maze) -> Tuple[dict[int, int, str], str]:
         turn(runner, 'Left')
         turn(runner, 'Left')
         move = "LLF"
-    forward(runner)
+    go_straight(runner, maze)
     return runner, move
 
+                  
 
 def explore(runner, maze, goal: Optional[Tuple[int, int]] = None) -> str:
     """
@@ -132,27 +148,18 @@ def explore(runner, maze, goal: Optional[Tuple[int, int]] = None) -> str:
 
 
     """
+
     steps = []
+    table = {get_position(runner): [float('inf'), '']}
     if goal is None:
         width, height = get_dimensions(maze)
         goal = [width-1, height-1]
 
     while (runner['x'] != goal[0] or runner['y'] != goal[1]):
-        print_maze(maze, runner, goal)
         runner, movement = move(runner, maze)
         steps.append(movement)
+        table[get_position(runner)] = [float('inf'), '']
+
+
     print("REACHED GOAL!")
-    return "".join(steps)
-
-
-maze = create_maze(4, 3)
-maze = add_horizontal_wall(maze, 1, 1)
-maze = add_horizontal_wall(maze, 2, 2)
-maze = add_horizontal_wall(maze, 1, 2)
-maze = add_vertical_wall(maze, 0, 2)
-maze = add_vertical_wall(maze, 1, 1)
-maze = add_horizontal_wall(maze, 3, 1)
-
-runner = create_runner(1, 0, 'N')
-# print_maze(maze, runner)
-print(explore(runner, maze, [1, 1]))
+    return " ".join(steps), table
