@@ -21,6 +21,6 @@ file_name="${2:-students.txt}" #if second cmd line argument does not exist use s
 
 echo "Writing to $file_name..."
 
-cut -d, -f1 $1 | sort | uniq > $file_name
+cut -d, -f1,2 $1 | tail -n +2 | sort -t, -k1,1 | uniq -f1 | cut -d, -f1 > $file_name
 
 echo "Done"
