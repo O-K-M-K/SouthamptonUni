@@ -12,7 +12,7 @@ __email__ = "T.S.Hoang@soton.ac.uk"
 __status__ = "Prototype"
 
 
-from runner import (  # type: ignore
+from src.runner import (  # type: ignore
     create_runner,
     get_orientation,
     get_x,
