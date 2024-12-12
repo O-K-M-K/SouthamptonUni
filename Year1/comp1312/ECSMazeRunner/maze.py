@@ -1,12 +1,9 @@
-#!/usr/bin/env python
 """
-Provides functions for generating and manipulating a maze stored as an Adjacency List
-All coordinates count from 0 and are in the (x,y) format
+Provides functions for generating and manipulating a maze stored as an Adjacency List.
+All coordinates count from 0 and are in the (x,y) format.
 """
 
-# IMPORTS
 from typing import Tuple, Optional
-
 
 # CONSTANTS
 ARROWS = {'N': ' ^ ', 'E': ' > ', 'S': ' v ', 'W': ' < '}
@@ -33,12 +30,12 @@ def create_maze(width: int = 5, height: int = 5) -> dict:
 
 def add_horizontal_wall(maze: dict, x_coordinate: int, horizontal_line: int) -> dict:
     """
-    Parameters:
+    parameters:
         - maze is the maze as returned by the create_maze function
         - x_coordinate is the coordinate of the column to place the wall
         - horizontal_line is the row number where the wall will go with the base of the maze being 0 #
 
-    Returns:
+    returns:
         - maze
     """
     maze[f'{x_coordinate} {horizontal_line}'].append(f'{x_coordinate} {horizontal_line-1}')
@@ -49,12 +46,12 @@ def add_horizontal_wall(maze: dict, x_coordinate: int, horizontal_line: int) -> 
 
 def add_vertical_wall(maze, y_coordinate, vertical_line) -> dict:
     """
-    Parameters:
+    parameters:
         - maze is the maze as returned by the create_maze function
         - y_coordinate is the coordinate of the row to place the wall
         - horizontal_line is the column number where the wall will go with the left edge of the maze being 0
 
-    Returns:
+    returns:
         - maze
     """
     maze[f'{vertical_line - 1} {y_coordinate}'].append(f'{vertical_line} {y_coordinate}')
@@ -65,14 +62,15 @@ def add_vertical_wall(maze, y_coordinate, vertical_line) -> dict:
 
 def get_dimensions(maze: dict) -> Tuple[int, int]:
     """
-    returns: [width, height]
+    returns:
+        - (width, height) of maze
     """
-    return [maze['width'], maze['height']]
+    return (maze['width'], maze['height'])
 
 
 def get_neighbors(maze: dict, coordinate: str) -> Tuple[bool|str, bool|str, bool|str, bool|str]:
     """
-    Gets the avaliable nodes surrounding a given coordinate
+    Gets the avaliable nodes surrounding a given coordinate. If the neighbor is not valid its value is false.
 
     returns:
         - Tuple in order (N,E,S,W)
@@ -100,7 +98,9 @@ def get_neighbors(maze: dict, coordinate: str) -> Tuple[bool|str, bool|str, bool
 
 def get_walls(maze: dict, x_coordinate: int, y_coordinate: int) -> Tuple[bool, bool, bool, bool]:
     """
-    Gets the walls surrounding a given coordinate
+    Gets the walls surrounding a given coordinate. 
+
+    Each element takes the value of True if there is a wall and False if there is not.
 
     returns:
         - Tuple in order (N,E,S,W)
@@ -125,11 +125,12 @@ def get_walls(maze: dict, x_coordinate: int, y_coordinate: int) -> Tuple[bool, b
 
 def print_maze(maze: dict, runner: dict = None, goal: Optional[Tuple[int, int]] = None, shortest_path = []) -> list:
     """
-    Prints maze, runner (^) position, goal (X) and shortes path ((o)) to the terminal
+    Prints maze, runner (^) position, goal (X) and shortest path ((o)) to the terminal
 
     Goal is defaulted as the top right corner of the maze if none is given
 
-    Returns a list with each element being one row in the maze as it would be printed to the terminal.
+    returns:
+        - list with each element being one row in the maze as it would be printed to the terminal.
     """
 
     outputMaze = []
@@ -162,7 +163,7 @@ def print_maze(maze: dict, runner: dict = None, goal: Optional[Tuple[int, int]] 
                 elif goal[0] == j and goal[1]+1 == i:
                     side_row += " X "
                 else:
-                    side_row += f"   " #TODO CHANGE BACK TO 3 SPACES
+                    side_row += f"   "
             elif goal[0] == j and goal[1]+1 == i:
                     side_row += " X "
             elif f"{j} {i-1}" in shortest_path:
@@ -181,18 +182,21 @@ def print_maze(maze: dict, runner: dict = None, goal: Optional[Tuple[int, int]] 
 
     return outputMaze
 
-def write_printed_maze_to_file(maze: list):
-    """
-    Writes the printed maze to "outputMaze.txt" as sometimes terminal is too small to contain full maze
 
-    params:
-    - maze: list of printed maze lines as returned by print_maze function
+def write_printed_maze_to_file(maze: list, file_name: str):
+    """
+    Include .txt in the file name.
+
+    Writes the printed maze to "filen_name" as sometimes terminal is too small to contain full maze
+
+    parameters:
+        - maze: list of printed maze lines as returned by the "print_maze" function
     
     """
-    with open('outputMaze.txt', 'w') as f:
+    with open(file_name, 'w') as f:
         for row in maze:
             f.write(row + '\n')
-    print("Written maze to outputMaze.txt")
+    #print(f"Written maze to {file_name}")
 
 
 
