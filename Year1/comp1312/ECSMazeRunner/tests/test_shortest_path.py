@@ -11,8 +11,8 @@ __maintainer__ = "Son Hoang"
 __email__ = "T.S.Hoang@soton.ac.uk"
 __status__ = "Prototype"
 
-from maze import create_maze, add_horizontal_wall, add_vertical_wall  # type: ignore
-from maze_runner import shortest_path  # type: ignore
+from src.maze import create_maze, add_horizontal_wall, add_vertical_wall  # type: ignore
+from src.maze_runner import shortest_path  # type: ignore
 
 
 def test_shortest_path() -> None:
