@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class MediumWordBank implements WordBank{
+
     private List<String> words = new ArrayList<>();
-    private final Random rand = new Random();
+    private final WordSelectionStrategy selectionStrategy;
 
     public MediumWordBank(String filePath){
+        this.selectionStrategy = new RandomWordStrategy();
         categorizeWords(getAllWords(filePath));
     }
 
@@ -39,7 +40,7 @@ public class MediumWordBank implements WordBank{
         if (words.isEmpty()){
             System.err.println("No medium words available");
         } else{
-            randomWord = words.get(rand.nextInt(words.size()));
+            randomWord = selectionStrategy.selectWord(words);
         }
         return randomWord;
     }

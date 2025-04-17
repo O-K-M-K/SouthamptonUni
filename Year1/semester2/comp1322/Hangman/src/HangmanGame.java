@@ -6,7 +6,7 @@ public abstract class HangmanGame {
     protected GameUI ui;
     protected Difficulty difficulty;
 
-    protected abstract int getMaxAttempts();
+    
     protected abstract WordBank getWordBank(String filePath);
 
     public HangmanGame(){
@@ -24,17 +24,21 @@ public abstract class HangmanGame {
 
     public void startGame(){
         System.out.println("Welcome to Hangman! You have chosen " + getStringDifficulty() + " difficulty");
-        String randomWord = getWord();
+        String randomWord = wordBank.getRandomWord();
         this.currentWord = new Word(randomWord);
-        this.guessHandler = new GuessHandler(currentWord, getMaxAttempts());
+        this.guessHandler = new GuessHandler(currentWord, difficulty.getMaxAttempts());
         this.ui = new GameUI(currentWord, guessHandler);
         ui.DisplayWord();
     }
 
-    private String getWord(){
-        return wordBank.getRandomWord();
-    }
+    
 
+    /**
+     * Repeatidly asks for guess untill new guess is made
+     * 
+     *
+     * @return The new guess
+     */
     private char makeNewGuess(){
         while (true){
             char guess = CharacterInputHandler.readCharFromCmd("Enter a letter: ");

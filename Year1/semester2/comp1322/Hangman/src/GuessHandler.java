@@ -4,10 +4,10 @@ import java.util.Map;
 public class GuessHandler {
     private Map<Character, Letter> alphabet;
     private int guesses;
-    private Word currentWord;
+    private WordState currentWord;
     
 
-    public GuessHandler(Word currentWord, int guesses){
+    public GuessHandler(WordState currentWord, int guesses){
         this.currentWord = currentWord;
         this.guesses = guesses;
 
@@ -42,8 +42,8 @@ public class GuessHandler {
      */
     public boolean logGuess(char guess){
         guessLetter(guess);
-        if (checkGuessAgainstWord(guess)){
-            updateWord(guess);
+        if (currentWord.containsGuess(guess)){
+            currentWord.updateWord(guess);
             return true;
         } else{
             decrementGuess();
@@ -51,27 +51,6 @@ public class GuessHandler {
         }
     }
 
-    /**
-     * 
-     * @param guess
-     * @return If guess is a letter in the word and has yet to be guessed returns true otherwise returns false.
-     */
-    private boolean checkGuessAgainstWord(char guess){
-        for (Letter l : currentWord.getLetters()){
-            if (l.getValue() == guess && !l.isGuessed()){
-                return true;
-            } 
-        }
-        return false;
-    }
-
-    private void updateWord(char guess){
-        for (Letter l : currentWord.getLetters()){
-            if (l.getValue() == guess){
-                l.guess();
-            }
-        }
-    }
 
     public void decrementGuess(){
         guesses -= 1;

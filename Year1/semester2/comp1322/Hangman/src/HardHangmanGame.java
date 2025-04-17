@@ -4,10 +4,7 @@ public class HardHangmanGame extends HangmanGame {
         this.difficulty = Difficulty.HARD;
     }
 
-    @Override
-    protected int getMaxAttempts(){
-        return 6;
-    }
+    
 
 
     @Override

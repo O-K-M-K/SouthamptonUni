@@ -1,7 +1,7 @@
 public class GameUI {
 
-    private Word word;
-    private GuessHandler guessHandler;
+    private final Word word;
+    private final GuessHandler guessHandler;
 
     public GameUI(Word word, GuessHandler guessHandler){
         this.word = word;

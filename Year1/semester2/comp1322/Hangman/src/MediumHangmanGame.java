@@ -5,12 +5,6 @@ public class MediumHangmanGame extends HangmanGame {
     }
 
     @Override
-    protected int getMaxAttempts(){
-        return 8;
-    }
-
-
-    @Override
     protected WordBank getWordBank(String filePath){
         return new MediumWordBank(filePath);
     }

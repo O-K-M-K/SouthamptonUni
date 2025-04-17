@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class EasyWordBank implements WordBank {
 
     private List<String> words = new ArrayList<>();
-    private final Random rand = new Random();
+    private final WordSelectionStrategy selectionStrategy;
 
     public EasyWordBank(String filePath){
+        this.selectionStrategy = new RandomWordStrategy();
         categorizeWords(getAllWords(filePath));
     }
 
@@ -41,7 +41,7 @@ public class EasyWordBank implements WordBank {
         if (words.isEmpty()){
             System.err.println("No easy words available");
         } else{
-            randomWord = words.get(rand.nextInt(words.size()));
+            randomWord = selectionStrategy.selectWord(words);
         }
         return randomWord;
     }

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Word {
+public class Word implements WordState {
 
     private final String word;
     private List<Letter> letters;
@@ -22,14 +22,17 @@ public class Word {
         }
     }
 
+    @Override
     public String getWord(){
         return word;
     }
 
+    @Override
     public List<Letter> getLetters(){
         return letters;
     }
 
+    @Override
     public boolean isGuessed(){
         for (Letter l : letters){
             if (!l.isGuessed()){
@@ -39,7 +42,24 @@ public class Word {
         return true;
     }
 
+    @Override
+    public boolean containsGuess(char letter){
+        for (Letter l : letters){
+            if (l.getValue() == letter && !l.isGuessed()){
+                return true;
+            }
+        }
+        return false;
+    }
 
+    @Override
+    public void updateWord(char guess){
+        for (Letter l : letters){
+            if (l.getValue() == guess){
+                l.guess();
+            }
+        }
+    }
 
 
 }
