@@ -58,12 +58,12 @@ public abstract class HangmanGame {
 
         
         char guess = makeNewGuess();
+        guessHandler.logGuess(guess);
 
-        //log guess
-        if (guessHandler.logGuess(guess)){
-            System.out.println("Correct!");
+        if (guessHandler.wasGuessCorrect(guess)){
+            ui.displayCorrectGuessMessage();
         } else{
-            System.out.println("Incorrect!");
+            ui.displayIncorrectGuessMessage();
         }
 
         ui.DisplayWord();

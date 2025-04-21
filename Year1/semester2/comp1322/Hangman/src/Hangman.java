@@ -15,6 +15,7 @@ public class Hangman {
             while (!game.isGameOver()){
                 game.makeGuess();
             }
+            GameUI.thanksForPlayingMessage();
         } else{
             System.err.println("Error game object is null.");
         }
@@ -28,12 +29,13 @@ public class Hangman {
      *
      * @return A configured HangmanGame instance of the selected difficulty
      */
+    //alter so word bank is inserted into hangman game meaning you create it here and they have seperate lifetimes
     private static HangmanGame selectGameDifficulty() {
         List<Character> availableDifficulties = new ArrayList<>(Arrays.asList('e', 'm', 'h'));
 
         while (!availableDifficulties.isEmpty()) {
-            displayDifficulties(availableDifficulties);
-
+            GameUI.displayDifficulties(availableDifficulties);
+            
             char choice = CharacterInputHandler.readValidatedCharFromCmd(
                     "Enter your choice (e/m/h): ",
                     availableDifficulties);
@@ -97,25 +99,5 @@ public class Hangman {
             System.exit(0);
         }
     }
-
-    private static void displayDifficulties(List<Character> validDifficulties) {
-        System.out.println("Select Difficulty: ");
-
-        for (int i = 0; i < validDifficulties.size(); i++) {
-            Character difficultyShortcut = validDifficulties.get(i);
-            String difficulty = "";
-
-            switch (difficultyShortcut){
-                case 'e' -> difficulty = "Easy";
-                case 'm' -> difficulty = "Medium";
-                case 'h' -> difficulty = "Hard";
-            }
-            System.out.println((i + 1) + ". " + difficulty + " (" + difficultyShortcut + ")");
-        }
-    }
-
-
-
-    
 
 }

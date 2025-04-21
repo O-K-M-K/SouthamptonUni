@@ -17,7 +17,7 @@ public class GuessHandler {
         }
     }
 
-    public void guessLetter(char letter){
+    public void updateAlphabet(char letter){
         Letter l = alphabet.get(letter);
         l.guess();
     }
@@ -38,21 +38,22 @@ public class GuessHandler {
     /**
      * Updates the alphabet of guessed letters. Updates the word if the guess was correct. If guess was incorrect decrements the remaining attempts.
      * @param guess
-     * @return true if guess was correct false if not 
+     *  
      */
-    public boolean logGuess(char guess){
-        guessLetter(guess);
+    public void logGuess(char guess){
+        updateAlphabet(guess);
         if (currentWord.containsGuess(guess)){
             currentWord.updateWord(guess);
-            return true;
         } else{
-            decrementGuess();
-            return false;
+            decrementRemainingGuesses();
         }
     }
 
+    public boolean wasGuessCorrect(char guess){
+        return currentWord.containsGuess(guess);
+    }
 
-    public void decrementGuess(){
+    public void decrementRemainingGuesses(){
         guesses -= 1;
     }
     public int getGuessesRemaining(){

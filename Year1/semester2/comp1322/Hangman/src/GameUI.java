@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class GameUI {
 
     private final Word word;
@@ -50,5 +52,33 @@ public class GameUI {
 
     public void DisplayGuessesLeft(){
         System.out.println("Guesses left: " + guessHandler.getGuessesRemaining());
+    }
+
+    public void displayCorrectGuessMessage(){
+        System.out.println("Correct!");
+    }
+    public void displayIncorrectGuessMessage(){
+        System.out.println("Incorrect!");
+    }
+
+    public static void displayDifficulties(List<Character> validDifficulties) {
+        System.out.println("Select Difficulty: ");
+
+        for (int i = 0; i < validDifficulties.size(); i++) {
+            Character difficultyShortcut = validDifficulties.get(i);
+            String difficulty = "";
+
+            switch (difficultyShortcut){
+                case 'e' -> difficulty = "Easy";
+                case 'm' -> difficulty = "Medium";
+                case 'h' -> difficulty = "Hard";
+            }
+            System.out.println((i + 1) + ". " + difficulty + " (" + difficultyShortcut + ")");
+        }
+    }
+
+    public static void thanksForPlayingMessage(){
+        System.out.println("Thank you for playing hangman");
+
     }
 }

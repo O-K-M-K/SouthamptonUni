@@ -36,7 +36,7 @@ public final class FileHandler {
             }
             reader.close();
         } catch (IOException e){
-            System.err.println("Error reading file: " + e.getMessage() + "\n Reverting to deafult wordlist");
+            System.err.println("Error reading file: " + e.getMessage() + "  Reverting to deafult wordlist\n");
             return backupWords;
             //throw new RuntimeException("Failed to read file");
         }
