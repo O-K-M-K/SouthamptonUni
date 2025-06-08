@@ -40,6 +40,7 @@ Breif:
 Presentation coursework in Semester 2. 
 
 ### Comp1322 - Programming II
+**Coursework mark: 75%**
 Learning OOP through Java
 
 ### Comp1324 - Algorithmics
