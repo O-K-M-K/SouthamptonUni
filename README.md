@@ -7,7 +7,7 @@ This repo contains the coursework I have completed during my time studying at th
 ## Semester 1
 
 ### Comp1300 - Technical Report
-**Coursework Mark: **
+**Coursework Mark: 76%**
 
 Contains a technical report, written in LaTex, on the technical limitations, ethical and legal challanges of implementing facial recognition systems in Southampton High Street. 
 
