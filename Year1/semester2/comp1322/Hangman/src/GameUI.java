@@ -81,4 +81,8 @@ public class GameUI {
         System.out.println("Thank you for playing hangman");
 
     }
+
+    public static void welcomeMessage(){
+        System.out.println("Welcome to Hangman!");
+    }
 }

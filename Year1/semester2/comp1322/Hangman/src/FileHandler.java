@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,16 +29,22 @@ public final class FileHandler {
 "lighter Medium", "herd Medium", "deter Medium");
         List<String> backupWords = new ArrayList<>(words);
 
-        Path path = Paths.get(filePath);
+        InputStream inputStream = FileHandler.class.getClassLoader().getResourceAsStream(filePath);
 
-        try(BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)){
+        if (inputStream == null) {
+            System.err.println("File not found: " + filePath + "  Reverting to default wordlist\n");
+            return backupWords; // In case the file doesn't exist, return the backup list
+        }
+
+
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))){
             String line;
             while ((line = reader.readLine()) != null){
                 allWords.add(line.trim());
             }
             reader.close();
         } catch (IOException e){
-            System.err.println("Error reading file: " + e.getMessage() + "  Reverting to deafult wordlist\n");
+            System.err.println("Error reading file: " + e.getMessage() + "  Reverting to default wordlist\n");
             return backupWords;
             //throw new RuntimeException("Failed to read file");
         }

@@ -29,6 +29,7 @@ public abstract class HangmanGame {
         this.guessHandler = new GuessHandler(currentWord, difficulty.getMaxAttempts());
         this.ui = new GameUI(currentWord, guessHandler);
         ui.DisplayWord();
+        ui.DisplayGuessesLeft();
     }
 
     

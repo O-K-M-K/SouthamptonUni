@@ -5,6 +5,7 @@ public class GuessHandler {
     private Map<Character, Letter> alphabet;
     private int guesses;
     private WordState currentWord;
+    private boolean lastGuessCorrect;
     
 
     public GuessHandler(WordState currentWord, int guesses){
@@ -26,10 +27,6 @@ public class GuessHandler {
         return alphabet.get(letter);
     }
 
-    public Map<Character, Letter> getAlphabet(){
-        return alphabet;
-    }
-
     public boolean checkGuessIsNew(char guess){
         Letter l = alphabet.get(guess);
         return !l.isGuessed();
@@ -44,13 +41,15 @@ public class GuessHandler {
         updateAlphabet(guess);
         if (currentWord.containsGuess(guess)){
             currentWord.updateWord(guess);
+            lastGuessCorrect = true;
         } else{
             decrementRemainingGuesses();
+            lastGuessCorrect = false;
         }
     }
 
     public boolean wasGuessCorrect(char guess){
-        return currentWord.containsGuess(guess);
+        return lastGuessCorrect;
     }
 
     public void decrementRemainingGuesses(){

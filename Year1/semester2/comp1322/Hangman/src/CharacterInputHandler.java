@@ -31,7 +31,7 @@ public final class CharacterInputHandler {
     /**
      * 
      * Reads a command line input and will only accept it if it is a single alphabetical character.
-     * @param input
+     * @param message
      * @return the inputted character
      */
     public static Character readCharFromCmd(String message){
@@ -45,10 +45,10 @@ public final class CharacterInputHandler {
             if (validateInput(input)){
                 valid = true;
             } else {
-                System.out.println("Invalid input");
+                System.out.println("Invalid input. Please input a single alphabetical character.");
             }
         }
-        return input.trim().charAt(0);
+        return Character.toLowerCase(input.trim().charAt(0));
     }
 
     /**
