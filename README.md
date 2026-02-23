@@ -2,7 +2,27 @@
 
 This repo contains the coursework I have completed during my time studying at the University of Southampton.
 
-# Year 1
+# Year 2
+
+## Semester 1
+
+### Comp2321 - Artifical Intelligence 
+Contains a chess engine written in Python utilizing Bitboard representations for O(1) board operations and bitwise move generation. The engine uses a Minimax search algorithm optomised with Alpha-Beta pruning and tuned heuristics.
+
+Breif:
+> Create a chess bot for a altered chess game played on a 5x5 board.
+
+### Comp2321 - Programming III (Haskell)
+**Coursework Mark: 81%**
+
+Contains a variety of functional programming problems.
+
+### Comp2311 Theory of Computing
+
+## Semester 2
+
+
+# Year 1 - First Class Honours 
 
 ## Semester 1
 
@@ -18,14 +38,14 @@ Brief:
 
 ### Comp1312 - Programming I
 **Coursework Mark: 81.25%**
-Programming module in Semester 1. Contains coursework written in python to implement a virtual representation of a maze-solving game and examples of some expected inputs and ouptuts.
+Contains coursework written in python to implement a virtual representation of a maze-solving game and examples of some expected inputs and ouptuts.
 
 Algorithms ranging in complexity from left-hug to flood fill and dykstras shortest path were used. 
 
 ### Comp1314 - Data Management
 **Coursework mark: 90%**
 
-Data management module in Semester 1. Contains coursework written using Bash, Linux terminal commands and SQL to format data and create a fully normalized database and subsequently query it. In addition there is a report written in LaTex explaining the decisions made in each part of the process.
+Contains coursework written using Bash, Linux terminal commands and SQL to format data and create a fully normalized database and subsequently query it. In addition there is a report written in LaTex explaining the decisions made in each part of the process.
 
 
 Breif:
@@ -44,4 +64,7 @@ Presentation coursework in Semester 2.
 Learning OOP through Java
 
 ### Comp1324 - Algorithmics
+**Mark: 80%**
 Learning Algorithms and Data structures in conjunction with Java
+
+
